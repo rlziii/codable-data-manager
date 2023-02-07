@@ -25,7 +25,7 @@ public class DataManager {
     ///   - shouldOverwrite: `true` if the operation should overwrite an existing file if it exists; `false` if the file should not be overwritten and instead a `DataManagerError.fileExists` should be thrown instead if a file exists.
     public func write<T: Encodable>(_ encodable: T, filename: String, shouldOverwrite: Bool = true) throws {
         let data = try encoder.encode(encodable)
-        let url = try url(for: filename)
+        let url = url(for: filename)
 
         if !shouldOverwrite && manager.fileExists(url) {
             throw DataManagerError.fileExists(at: url)
@@ -40,7 +40,7 @@ public class DataManager {
     ///   - filename: The filename (used in conjunction with the `DataFileManager`'s `urlForFilename`) used to construct the URL location on disk.
     /// - Returns: The decoded object from the file location if it exists; otherwise `nil` if the file is not found.
     public func read<T: Decodable>(_ type: T.Type, filename: String) throws -> T? {
-        let url = try url(for: filename)
+        let url = url(for: filename)
         guard let data = manager.readFile(url) else {
             return nil
         }
@@ -52,7 +52,7 @@ public class DataManager {
     /// Create a URL for the given filename.
     /// - Parameter filename: The filename to append to the base URL constructed by the `DataFileManager`.
     /// - Returns: The constructed URL.
-    private func url(for filename: String) throws -> URL {
+    private func url(for filename: String) -> URL {
         manager.urlForFilename(filename)
     }
 }
